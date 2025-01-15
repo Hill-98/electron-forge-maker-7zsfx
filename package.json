@@ -1,0 +1,59 @@
+{
+  "name": "electron-forge-maker-7zsfx",
+  "version": "1.0.0",
+  "description": "7zsfx maker for Electron Forge",
+  "keywords": [
+    "electron",
+    "forge",
+    "maker",
+    "7z",
+    "sfx",
+    "windows"
+  ],
+  "files": [
+    "./bin",
+    "./dist"
+  ],
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "homepage": "https://github.com/Hill-98/electron-forge-maker-7zsfx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hill-98/electron-forge-maker-7zsfx.git"
+  },
+  "bugs": "https://github.com/Hill-98/electron-forge-maker-7zsfx/issues",
+  "author": "Zhong Lufan <lufanzhong@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "npm run check && npm run test && npm run build",
+    "build": "vite build && dts-bundle-generator --no-banner --no-check -o ./dist/index.d.ts ./src/index.ts",
+    "check": "biome check && tsc --noEmit",
+    "test": "node --experimental-strip-types --experimental-test-coverage --test",
+    "prepare": "husky"
+  },
+  "engines": {
+    "node": ">= 16.4.0"
+  },
+  "dependencies": {
+    "@electron-forge/maker-base": "^7.6.0",
+    "@electron-forge/shared-types": "^7.6.0",
+    "@electron/windows-sign": "^1.2.0",
+    "rcedit": "^4.0.1",
+    "which": "^5.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/cross-spawn": "^6.0.6",
+    "@types/node": "latest",
+    "@types/which": "^3.0.4",
+    "dts-bundle-generator": "^9.5.1",
+    "husky": "^9.1.6",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.0"
+  },
+  "volta": {
+    "node": "22.13.0"
+  }
+}
