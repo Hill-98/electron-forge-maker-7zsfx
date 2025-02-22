@@ -37,15 +37,14 @@
     "node": ">= 16.4.0"
   },
   "dependencies": {
-    "@electron-forge/maker-base": "^7.6.0",
-    "@electron-forge/shared-types": "^7.6.0",
+    "@electron-forge/maker-base": "^7.7.0",
+    "@electron-forge/shared-types": "^7.7.0",
     "@electron/windows-sign": "^1.2.0",
     "rcedit": "^4.0.1",
     "which": "^5.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@types/cross-spawn": "^6.0.6",
     "@types/node": "latest",
     "@types/which": "^3.0.4",
     "dts-bundle-generator": "^9.5.1",

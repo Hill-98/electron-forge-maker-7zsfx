@@ -20,9 +20,8 @@
     "make": "electron-forge make"
   },
   "devDependencies": {
-    "@electron-forge/cli": "^7.4.0",
-    "@types/node": "latest",
-    "electron": "^34.0.0"
+    "@electron-forge/cli": "^7.7.0",
+    "electron": "latest"
   },
   "volta": {
     "node": "20.18.1"
