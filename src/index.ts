@@ -157,7 +157,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
         '{{ requestedExecutionLevel }}',
         this.config.requireAdministrator ? 'requireAdministrator' : 'asInvoker',
       ),
-      { encoding: 'ascii' },
+      { encoding: 'utf-8' },
     )
     await RcEdit(artifact, {
       'application-manifest': manifestFile,
