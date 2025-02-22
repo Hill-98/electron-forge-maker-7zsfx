@@ -12,8 +12,9 @@ export default defineConfig({
       fileName(format, entry) {
         return format === 'es' ? entry.concat('.js') : entry.concat('.cjs')
       },
-      formats: ['es', 'cjs'],
+      formats: ['cjs'],
     },
+    reportCompressedSize: false,
     rollupOptions: {
       external: [
         ...builtinModules,

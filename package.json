@@ -14,10 +14,8 @@
     "./bin",
     "./dist"
   ],
-  "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
   "homepage": "https://github.com/Hill-98/electron-forge-maker-7zsfx",
   "repository": {
     "type": "git",
