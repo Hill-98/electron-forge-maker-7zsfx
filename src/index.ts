@@ -77,14 +77,19 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
       : which.sync('7zr')
   }
 
+  constructor(config: SevenZSFXMakerConfigOptions) {
+    super(config)
+    this.config ??= {}
+  }
+
   async #packTo7zArchive(dir: string, out: string, switches: string[]) {
     return new Promise<void>((resolve, reject) => {
       spawn(SevenZSFXMaker.Get7zrCli(), ['a', ...switches, out, '.'], {
         cwd: dir,
         stdio: 'inherit',
       })
-        .on('error', reject)
-        .on('close', (code) =>
+        .once('error', reject)
+        .once('exit', (code) =>
           code === 0
             ? resolve()
             : reject(`Error: 7zr process exit code is ${code}`),
