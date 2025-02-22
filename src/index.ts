@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer'
 import { spawn } from 'node:child_process'
-import { existsSync } from 'node:fs'
+import { existsSync as exists } from 'node:fs'
 import { cp, open, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pipeline } from 'node:stream/promises'
@@ -113,7 +113,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
   }
 
   override isSupportedOnCurrentPlatform() {
-    return existsSync(SevenZSFXMaker.Get7zrCli())
+    return exists(SevenZSFXMaker.Get7zrCli())
   }
 
   override async make({
@@ -137,6 +137,11 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     const archiveFile = artifact.replace(/\.exe$/, '.7z')
     const manifestFile = `${artifact}.manifest`
     const sfxConfigFile = `${artifact}.config`
+    const icon = [
+      this.config.icon,
+      packagerConfig.icon,
+      packagerConfig.icon?.concat('.ico'),
+    ].find((v) => (v ? exists(v) : false))
 
     await this.ensureFile(artifact)
     await this.ensureFile(archiveFile)
@@ -157,7 +162,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     await RcEdit(artifact, {
       'application-manifest': manifestFile,
       'file-version': this.normalizeWindowsVersion(appVersion),
-      icon: this.config.icon ?? packagerConfig.icon,
+      icon,
       'product-version': appVersion,
       'version-string': {
         CompanyName: packagerConfig.win32metadata?.CompanyName ?? '',
