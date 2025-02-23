@@ -4,16 +4,14 @@ import { existsSync as exists } from 'node:fs'
 import { cp, open, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pipeline } from 'node:stream/promises'
-import { fileURLToPath } from 'node:url'
 import { MakerBase, type MakerOptions } from '@electron-forge/maker-base'
 import { type OptionalSignToolOptions, sign } from '@electron/windows-sign'
 import type { VersionStringOptions } from 'rcedit'
 import RcEdit from 'rcedit'
-import which from 'which'
 
-const ROOT_DIR = resolve(fileURLToPath(import.meta.url), '../../')
-const SevenZSD_SFX = resolve(ROOT_DIR, 'bin/7zSD.sfx')
-const SevenZSD_SFX_MANIFEST = resolve(ROOT_DIR, 'bin/7zSD.sfx.manifest')
+const SevenZ_CLI = resolve(__dirname, '../bin/7zr.exe')
+const SevenZSD_SFX = resolve(__dirname, '../bin/7zSD.sfx')
+const SevenZSD_SFX_MANIFEST = resolve(__dirname, '../bin/7zSD.sfx.manifest')
 
 export interface SfxOptions {
   [key: string]: string | undefined
@@ -71,12 +69,6 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
   static SevenZVersion = '24.09'
 
-  static Get7zrCli() {
-    return process.platform === 'win32'
-      ? resolve(ROOT_DIR, 'bin/7zr.exe')
-      : which.sync('7zr')
-  }
-
   constructor(config: SevenZSFXMakerConfigOptions) {
     super(config)
     this.config ??= {}
@@ -84,7 +76,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
   async #packTo7zArchive(dir: string, out: string, switches: string[]) {
     return new Promise<void>((resolve, reject) => {
-      spawn(SevenZSFXMaker.Get7zrCli(), ['a', ...switches, out, '.'], {
+      spawn(SevenZ_CLI, ['a', ...switches, out, '.'], {
         cwd: dir,
         stdio: 'inherit',
       })
@@ -118,7 +110,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
   }
 
   override isSupportedOnCurrentPlatform() {
-    return exists(SevenZSFXMaker.Get7zrCli())
+    return process.platform === 'win32'
   }
 
   override async make({
