@@ -141,7 +141,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     )
     const archiveFile = artifact.replace(/\.exe$/, '.7z')
     const manifestFile = `${artifact}.manifest`
-    const sfxConfigFile = `${artifact}.config`
+    const sfxConfigFile = `${artifact}.cfg`
     const icon = [
       this.config.icon,
       packagerConfig.icon,
@@ -180,11 +180,10 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
     const archiveHandle = await open(archiveFile, 'r')
     const artifactHandle = await open(artifact, 'a')
-    const sfxConfig = this.#sfxConfigToBuffer(
-      this.config.sfxConfig ?? {
-        RunProgram: `${packagerConfig.executableName ?? appName}.exe`,
-      },
-    )
+    const sfxConfig = this.#sfxConfigToBuffer({
+      RunProgram: `${packagerConfig.executableName ?? appName}.exe`,
+      ...this.config.sfxConfig,
+    })
 
     await writeFile(sfxConfigFile, sfxConfig)
     await artifactHandle.appendFile(sfxConfig)
