@@ -44,6 +44,10 @@ export interface SevenZSFXMakerConfigOptions {
    */
   requireAdministrator?: boolean
   /**
+   * custom 7z sfx module path.
+   */
+  sfx?: string
+  /**
    * 7z sfx config.txt.
    *
    * @see {https://documentation.help/7-Zip/sfx.htm}
@@ -147,7 +151,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
     await this.#packTo7zArchive(dir, archiveFile, switches)
 
-    await cp(SevenZSD_SFX, artifact)
+    await cp(this.config.sfx ?? SevenZSD_SFX, artifact)
     await writeFile(
       manifestFile,
       (await readFile(SevenZSD_SFX_MANIFEST, { encoding: 'utf8' })).replaceAll(
