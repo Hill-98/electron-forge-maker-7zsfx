@@ -1,5 +1,6 @@
 import { builtinModules } from 'node:module'
 import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 import pkg from './package.json'
 
 export default defineConfig({
@@ -23,4 +24,5 @@ export default defineConfig({
       ],
     },
   },
+  plugins: [dts({ rollupTypes: true })],
 })
