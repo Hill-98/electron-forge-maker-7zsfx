@@ -26,7 +26,7 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "npm run check && npm run test && npm run build",
-    "build": "vite build && dts-bundle-generator --no-banner --no-check -o ./dist/index.d.ts ./src/index.ts",
+    "build": "vite build",
     "check": "biome check && tsc --noEmit",
     "test": "node --experimental-strip-types --experimental-test-coverage --test",
     "prepare": "husky"
@@ -35,20 +35,21 @@
     "node": ">= 16.4.0"
   },
   "dependencies": {
-    "@electron-forge/maker-base": "^7.7.0",
-    "@electron-forge/shared-types": "^7.7.0",
-    "@electron/windows-sign": "^1.2.0",
-    "rcedit": "^4.0.1"
+    "@electron-forge/maker-base": "^7.10.0",
+    "@electron-forge/shared-types": "^7.10.0",
+    "@electron/windows-sign": "^2.0.2",
+    "rcedit": "^5.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.6",
+    "@biomejs/biome": "2.3.7",
     "@types/node": "latest",
     "dts-bundle-generator": "^9.5.1",
     "husky": "^9.1.6",
-    "typescript": "~5.7.2",
-    "vite": "^6.0.0"
+    "typescript": "~5.9.0",
+    "vite": "^7.2.0",
+    "vite-plugin-dts": "^4.5.4"
   },
   "volta": {
-    "node": "22.13.0"
+    "node": "24.11.1"
   }
 }

@@ -4,10 +4,8 @@ import { existsSync as exists } from 'node:fs'
 import { cp, open, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pipeline } from 'node:stream/promises'
+import type { OptionalSignToolOptions } from '@electron/windows-sign'
 import { MakerBase, type MakerOptions } from '@electron-forge/maker-base'
-import { type OptionalSignToolOptions, sign } from '@electron/windows-sign'
-import type { VersionStringOptions } from 'rcedit'
-import RcEdit from 'rcedit'
 
 const SevenZ_CLI = resolve(__dirname, '../bin/7zr.exe')
 const SevenZSD_SFX = resolve(__dirname, '../bin/7zSD.sfx')
@@ -60,9 +58,9 @@ export interface SevenZSFXMakerConfigOptions {
    */
   switches?: string[]
   /**
-   * @see {import('rcedit').VersionStringOptions}
+   * @see {import('rcedit').rcedit.VersionStringOptions}
    */
-  versionStrings?: VersionStringOptions
+  versionStrings?: import('rcedit').rcedit.VersionStringOptions
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -127,7 +125,6 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     packageJSON,
   }: MakerOptions): Promise<string[]> {
     const appVersion = packagerConfig.appVersion ?? packageJSON.version
-    const switches = this.config.switches ?? ['-mx', '-mf=BCJ2']
     const artifact = resolve(
       makeDir,
       '7zsfx',
@@ -141,8 +138,14 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     const icon = [
       this.config.icon,
       packagerConfig.icon,
-      packagerConfig.icon?.concat('.ico'),
-    ].find((v) => (v ? exists(v) : false))
+      typeof packagerConfig.icon === 'string'
+        ? packagerConfig.icon.concat('.ico')
+        : undefined,
+    ]
+      .flat()
+      .find((v) => (v ? exists(v) : false))
+    const switches = this.config.switches ?? ['-mx', '-mf=BCJ2']
+    const { rcedit } = await import('rcedit')
 
     await this.ensureFile(artifact)
     await this.ensureFile(archiveFile)
@@ -160,7 +163,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
       ),
       { encoding: 'utf-8' },
     )
-    await RcEdit(artifact, {
+    await rcedit(artifact, {
       'application-manifest': manifestFile,
       'file-version': this.normalizeWindowsVersion(appVersion),
       icon,
@@ -191,6 +194,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     await artifactHandle.close()
 
     if (this.config.certificateFile) {
+      const { sign } = await import('@electron/windows-sign')
       await sign({
         certificateFile: this.config.certificateFile,
         certificatePassword: this.config.certificatePassword,
