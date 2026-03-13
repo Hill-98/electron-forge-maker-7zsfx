@@ -16,7 +16,7 @@ export default defineConfig({
       formats: ['cjs'],
     },
     reportCompressedSize: false,
-    rollupOptions: {
+    rolldownOptions: {
       external: [
         ...builtinModules,
         ...builtinModules.map((v) => `node:${v}`),
