@@ -69,7 +69,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
   defaultPlatforms = ['win32']
 
-  static SevenZVersion = '26.00'
+  static SevenZVersion = '26.01'
 
   constructor(config: SevenZSFXMakerConfigOptions) {
     super(config)
@@ -78,7 +78,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
   async #packTo7zArchive(dir: string, out: string, switches: string[]) {
     return new Promise<void>((resolve, reject) => {
-      spawn(SevenZ_CLI, ['a', ...switches, out, '.'], {
+      spawn(SevenZ_CLI, ['a', ...switches, '--', out, '.'], {
         cwd: dir,
         stdio: 'inherit',
       })
