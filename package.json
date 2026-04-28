@@ -1,6 +1,6 @@
 {
   "name": "electron-forge-maker-7zsfx",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "7zsfx maker for Electron Forge",
   "keywords": [
     "electron",
