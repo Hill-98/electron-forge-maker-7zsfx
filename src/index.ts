@@ -69,7 +69,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
 
   defaultPlatforms = ['win32']
 
-  static SevenZVersion = '26.01'
+  static SevenZVersion = '26.02'
 
   constructor(config: SevenZSFXMakerConfigOptions) {
     super(config)
