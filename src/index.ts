@@ -166,7 +166,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     await rcedit(artifact, {
       'application-manifest': manifestFile,
       'file-version': this.normalizeWindowsVersion(appVersion),
-      icon,
+      icon: icon as string,
       'product-version': appVersion,
       'version-string': {
         CompanyName: packagerConfig.win32metadata?.CompanyName ?? '',
@@ -197,7 +197,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
       const { sign } = await import('@electron/windows-sign')
       await sign({
         certificateFile: this.config.certificateFile,
-        certificatePassword: this.config.certificatePassword,
+        certificatePassword: this.config.certificatePassword as string,
         files: [artifact],
       })
     }
