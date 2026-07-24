@@ -1,11 +1,11 @@
-const SevenZSFXMaker = require('../')
+import SevenZSFXMaker from 'electron-forge-maker-7zsfx'
 
 /** @type {import('@electron-forge/shared-types').ForgeConfig} */
 const config = {
   packagerConfig: {
-    icon: __dirname.concat('/icon'),
+    icon: import.meta.dirname.concat('/icon'),
   },
   makers: [new SevenZSFXMaker()],
 }
 
-module.exports = config
+export default config
