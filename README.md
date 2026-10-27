@@ -6,8 +6,8 @@ BCJ2 filter is used by default, which has higher compression ratio for x86 execu
 
 ## Usage
 
-Pre-requisites： 
-* Windows machine
+Pre-requisites：
+- Windows machine
 
 Configuration options are documented in `SevenZSFXMakerConfigOptions`.
 

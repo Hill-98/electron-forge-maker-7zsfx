@@ -23,10 +23,9 @@
     "dist"
   ],
   "type": "module",
-  "main": "./dist/index.cjs",
-  "types": "./dist/index.d.cts",
+  "types": "./dist/index.d.mts",
   "exports": {
-    ".": "./dist/index.cjs"
+    ".": "./dist/index.mjs"
   },
   "scripts": {
     "prepublishOnly": "npm run check && npm run test && npm run build",
@@ -36,19 +35,19 @@
     "prepare": "husky"
   },
   "engines": {
-    "node": ">= 16.4.0"
+    "node": ">= 22.17.0"
   },
   "dependencies": {
-    "@electron-forge/maker-base": "^7.0.0",
-    "@electron-forge/shared-types": "^7.0.0",
+    "@electron-forge/maker-base": "^8.0.0",
+    "@electron-forge/shared-types": "^8.0.0",
     "@electron/windows-sign": "^2.0.2",
     "rcedit": "^5.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.5",
+    "@biomejs/biome": "~2.6.3",
     "@types/node": "latest",
     "husky": "^9.1.6",
-    "tsdown": "^0.22.14",
+    "tsdown": "^0.23.0",
     "typescript": "~7.0.0"
   }
 }

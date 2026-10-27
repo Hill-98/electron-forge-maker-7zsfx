@@ -7,9 +7,12 @@ import { pipeline } from 'node:stream/promises'
 import type { OptionalSignToolOptions } from '@electron/windows-sign'
 import { MakerBase, type MakerOptions } from '@electron-forge/maker-base'
 
-const SevenZ_CLI = resolve(__dirname, '../bin/7zr.exe')
-const SevenZSD_SFX = resolve(__dirname, '../bin/7zSD.sfx')
-const SevenZSD_SFX_MANIFEST = resolve(__dirname, '../bin/7zSD.sfx.manifest')
+const SevenZ_CLI = resolve(import.meta.dirname, '../bin/7zr.exe')
+const SevenZSD_SFX = resolve(import.meta.dirname, '../bin/7zSD.sfx')
+const SevenZSD_SFX_MANIFEST = resolve(
+  import.meta.dirname,
+  '../bin/7zSD.sfx.manifest',
+)
 
 export interface SfxOptions {
   [key: string]: string | undefined
@@ -67,9 +70,9 @@ export interface SevenZSFXMakerConfigOptions {
 export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOptions> {
   name = 'SevenZSFXMaker'
 
-  defaultPlatforms = ['win32']
+  defaultPlatforms: ['win32'] = ['win32']
 
-  static SevenZVersion = process.env.SEVENZ_VERSION
+  static SevenZVersion = process.env.SEVENZ_VERSION as string
 
   constructor(config: SevenZSFXMakerConfigOptions) {
     super(config)
@@ -111,7 +114,7 @@ export default class SevenZSFXMaker extends MakerBase<SevenZSFXMakerConfigOption
     )
   }
 
-  override isSupportedOnCurrentPlatform() {
+  override isSupportedOnCurrentPlatform(): boolean {
     return process.platform === 'win32'
   }
 

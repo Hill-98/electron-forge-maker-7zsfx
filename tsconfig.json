@@ -7,15 +7,14 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "commonjs",
+    "module": "esnext",
     "target": "esnext",
     "moduleResolution": "bundler",
+    "types": ["node"],
 
     // Other Outputs
-    "emitDeclarationOnly": true,
-    "sourceMap": false,
+    "noEmit": true,
     "declaration": true,
-    "declarationMap": false,
 
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
@@ -33,12 +32,14 @@
     // Recommended Options
     "strict": true,
     "isolatedModules": true,
+    "isolatedDeclarations": true,
     "moduleDetection": "force",
     "noUncheckedSideEffectImports": true,
     "skipLibCheck": true
   },
   "include": [
     "src",
-    "tests"
+    "tests",
+    "tsdown.config.ts"
   ]
 }

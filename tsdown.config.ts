@@ -1,17 +1,16 @@
 import { ok } from 'node:assert/strict'
 import { execSync } from 'node:child_process'
-import { defineConfig } from 'tsdown'
+import type { UserConfig } from 'tsdown'
 
-const SevenZVersion = execSync(`${import.meta.dirname}\\bin\\7zr.exe`, {
+const SevenZOutput = execSync(`"${import.meta.dirname}\\bin\\7zr.exe"`, {
   encoding: 'utf-8',
 })
-  .split('\n')[1]
-  .split(' ')[2]
-  .trim()
+const SevenZVersion = /^7-Zip.*? (\d+\.\d+)(?: |$)/m.exec(SevenZOutput)?.[1]
+ok(SevenZVersion, 'Unable to determine the 7-Zip version')
 console.warn(`7-Zip version: ${SevenZVersion}`)
 ok(/^\d+\.\d+$/.test(SevenZVersion))
 
-export default defineConfig({
+const config: UserConfig = {
   define: {
     'process.env.SEVENZ_VERSION': JSON.stringify(SevenZVersion),
   },
@@ -20,7 +19,7 @@ export default defineConfig({
   exports: {
     packageJson: false,
   },
-  format: 'cjs',
+  format: 'esm',
   inputOptions: {
     experimental: {
       attachDebugInfo: 'none',
@@ -29,4 +28,6 @@ export default defineConfig({
   outputOptions: {
     comments: false,
   },
-})
+}
+
+export default config
